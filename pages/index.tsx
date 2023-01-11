@@ -22,6 +22,9 @@ type Product = {
 };
 
 export default function Home({ products }: InferGetStaticPropsType<typeof getStaticProps>) {
+	const categories: Array<string> = [
+		...new Set(products.map((product: Product) => product.category)),
+	] as string[];
 	return (
 		<>
 			<Head>
@@ -31,17 +34,22 @@ export default function Home({ products }: InferGetStaticPropsType<typeof getSta
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<main className='h-screen'>
-				<h1 className='m-6 text-3xl font-bold'>Plenny Gadgets</h1>
-				<div className='flex flex-col items-center md:flex-row'>
-					{products.map((product: Product) => (
-						<ProductCard key={product.id}>
-							<ProductImage image={product.image} name={product.name} />
-							<ProductName name={product.name} />
-							<ProductDescription description={product.description} />
-							<ProductPrice price={product.price} />
-						</ProductCard>
-					))}
-				</div>
+				<h1 className='my-6 text-3xl font-bold'>Plenny Gadgets</h1>
+				{categories.map((category: string) => (
+					<div key={category}>
+						<h2 className='text-2xl'>{category}</h2>
+						{products
+							.filter((p: Product) => p.category === category)
+							.map((product: Product) => (
+								<ProductCard key={product.id}>
+									<ProductImage image={product.image} name={product.name} />
+									<ProductName name={product.name} />
+									<ProductDescription description={product.description} />
+									<ProductPrice price={product.price} />
+								</ProductCard>
+							))}
+					</div>
+				))}
 			</main>
 		</>
 	);
