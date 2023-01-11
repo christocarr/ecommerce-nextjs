@@ -61,19 +61,23 @@ export default function Home({ products }: InferGetStaticPropsType<typeof getSta
 					<h1 className='my-6 text-3xl font-bold'>Plenny Gadgets</h1>
 					{categories.map((category: string) => (
 						<div key={category} className='mb-4'>
-							<h2 className='text-2xl'>{category}</h2>
-							<div className='flex'>
-								{searchedProducts
-									.filter((p: Product) => p.category === category)
-									.map((product: Product) => (
-										<ProductCard key={product.id}>
-											<ProductImage image={product.image} name={product.name} />
-											<ProductName name={product.name} />
-											<ProductDescription description={product.description} />
-											<ProductPrice price={product.price} />
-										</ProductCard>
-									))}
-							</div>
+							{searchedProducts.find((p) => p.category === category) && (
+								<>
+									<h2 className='text-2xl'>{category}</h2>
+									<div className='flex'>
+										{searchedProducts
+											.filter((p: Product) => p.category === category)
+											.map((product: Product) => (
+												<ProductCard key={product.id}>
+													<ProductImage image={product.image} name={product.name} />
+													<ProductName name={product.name} />
+													<ProductDescription description={product.description} />
+													<ProductPrice price={product.price} />
+												</ProductCard>
+											))}
+									</div>
+								</>
+							)}
 						</div>
 					))}
 				</div>
