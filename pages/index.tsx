@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import Head from 'next/head';
 import { Inter } from '@next/font/google';
 import { prisma } from '../lib/prisma';
@@ -22,9 +23,25 @@ type Product = {
 };
 
 export default function Home({ products }: InferGetStaticPropsType<typeof getStaticProps>) {
+	const [searchPhrase, setSearchPhrase] = useState('');
+
 	const categories: Array<string> = [
-		...new Set(products.map((product: Product) => product.category)),
+		...new Set(products.map((p: Product) => p.category)),
 	] as string[];
+
+	const handleSearchPhrase = (ev: React.FormEvent<HTMLInputElement>) => {
+		const target = ev.target as HTMLInputElement;
+		setSearchPhrase(target.value.toLowerCase());
+	};
+
+	let searchedProducts: Product[];
+
+	if (searchPhrase) {
+		searchedProducts = products.filter((p: Product) => p.name.toLowerCase().includes(searchPhrase));
+	} else {
+		searchedProducts = products;
+	}
+
 	return (
 		<>
 			<Head>
@@ -34,22 +51,32 @@ export default function Home({ products }: InferGetStaticPropsType<typeof getSta
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<main className='h-screen'>
-				<h1 className='my-6 text-3xl font-bold'>Plenny Gadgets</h1>
-				{categories.map((category: string) => (
-					<div key={category}>
-						<h2 className='text-2xl'>{category}</h2>
-						{products
-							.filter((p: Product) => p.category === category)
-							.map((product: Product) => (
-								<ProductCard key={product.id}>
-									<ProductImage image={product.image} name={product.name} />
-									<ProductName name={product.name} />
-									<ProductDescription description={product.description} />
-									<ProductPrice price={product.price} />
-								</ProductCard>
-							))}
-					</div>
-				))}
+				<div className='p-5'>
+					<input
+						placeholder='search for tech...'
+						value={searchPhrase}
+						onChange={handleSearchPhrase}
+						className='w-full mb-4 py-2 px-2 rounded-lg'
+					/>
+					<h1 className='my-6 text-3xl font-bold'>Plenny Gadgets</h1>
+					{categories.map((category: string) => (
+						<div key={category} className='mb-4'>
+							<h2 className='text-2xl'>{category}</h2>
+							<div className='flex'>
+								{searchedProducts
+									.filter((p: Product) => p.category === category)
+									.map((product: Product) => (
+										<ProductCard key={product.id}>
+											<ProductImage image={product.image} name={product.name} />
+											<ProductName name={product.name} />
+											<ProductDescription description={product.description} />
+											<ProductPrice price={product.price} />
+										</ProductCard>
+									))}
+							</div>
+						</div>
+					))}
+				</div>
 			</main>
 		</>
 	);
