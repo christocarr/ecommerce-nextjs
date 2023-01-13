@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { Inter } from '@next/font/google';
 import { prisma } from '../lib/prisma';
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { IProduct } from '../types/product';
 import {
 	ProductCard,
 	ProductImage,
@@ -13,20 +15,13 @@ import {
 
 const inter = Inter({ subsets: ['latin'] });
 
-type Product = {
-	id: string;
-	category: string;
-	description: string;
-	image: string;
-	name: string;
-	price: number;
-};
-
-export default function Home({ products }: InferGetStaticPropsType<typeof getStaticProps>) {
+export default function Home({ products }: InferGetServerSidePropsType<GetServerSideProps>) {
 	const [searchPhrase, setSearchPhrase] = useState('');
 
+	const router = useRouter();
+
 	const categories: Array<string> = [
-		...new Set(products.map((p: Product) => p.category)),
+		...new Set(products.map((p: IProduct) => p.category)),
 	] as string[];
 
 	const handleSearchPhrase = (ev: React.FormEvent<HTMLInputElement>) => {
@@ -34,12 +29,14 @@ export default function Home({ products }: InferGetStaticPropsType<typeof getSta
 		setSearchPhrase(target.value.toLowerCase());
 	};
 
-	let searchedProducts: Product[];
+	const handleClick = (ev: React.MouseEvent<HTMLDivElement>, id: string) => {
+		ev.stopPropagation();
+		const target = ev.target;
+		router.push(`/product/${id}`);
+	};
 
 	if (searchPhrase) {
-		searchedProducts = products.filter((p: Product) => p.name.toLowerCase().includes(searchPhrase));
-	} else {
-		searchedProducts = products;
+		products = products.filter((p: IProduct) => p.name.toLowerCase().includes(searchPhrase));
 	}
 
 	return (
@@ -61,14 +58,14 @@ export default function Home({ products }: InferGetStaticPropsType<typeof getSta
 					<h1 className='my-6 text-3xl font-bold'>Plenny Gadgets</h1>
 					{categories.map((category: string) => (
 						<div key={category} className='mb-4'>
-							{searchedProducts.find((p) => p.category === category) && (
+							{products.find((p: IProduct) => p.category === category) && (
 								<>
 									<h2 className='text-2xl'>{category}</h2>
 									<div className='flex'>
-										{searchedProducts
-											.filter((p: Product) => p.category === category)
-											.map((product: Product) => (
-												<ProductCard key={product.id}>
+										{products
+											.filter((p: IProduct) => p.category === category)
+											.map((product: IProduct) => (
+												<ProductCard key={product.id} onClick={(ev) => handleClick(ev, product.id)}>
 													<ProductImage image={product.image} name={product.name} />
 													<ProductName name={product.name} />
 													<ProductDescription description={product.description} />
@@ -86,8 +83,8 @@ export default function Home({ products }: InferGetStaticPropsType<typeof getSta
 	);
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-	const products: Product[] = await prisma.products.findMany();
+export const getServerSideProps: GetServerSideProps = async () => {
+	const products: IProduct[] = await prisma.products.findMany();
 
 	return {
 		props: {
