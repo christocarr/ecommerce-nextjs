@@ -4,3 +4,4 @@ export { default as ProductName } from './ProductName';
 export { default as ProductDescription } from './ProductDescription';
 export { default as ProductPrice } from './ProductPrice';
 export { default as Button } from './Button';
+export { default as Cart } from './Cart';
