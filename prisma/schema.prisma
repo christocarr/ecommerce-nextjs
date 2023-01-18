@@ -7,11 +7,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+type ProductsSpecifications {
+  Bluetooth        String?
+  Charging_case    String? @map("Charging case")
+  Colour           String?
+  Memory           String?
+  Microphone       String?
+  Model            String?
+  Noise_cancelling String? @map("Noise cancelling")
+  Screen_size      String? @map("Screen size")
+  Storage          String?
+  Weight           String?
+}
+
 model products {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
-  category    String
-  description String
-  image       String
-  name        String
-  price       Float
+  id             String                 @id @default(auto()) @map("_id") @db.ObjectId
+  category       String
+  description    String
+  image          String
+  name           String
+  price          Float
+  specifications ProductsSpecifications
 }
