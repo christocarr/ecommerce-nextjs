@@ -1,3 +1,5 @@
+import ProductsSpecification from './specification';
+
 export interface IProduct {
 	id: string;
 	category: string;
@@ -5,4 +7,5 @@ export interface IProduct {
 	image: string;
 	name: string;
 	price: number;
+	specifications: ProductsSpecification;
 }
