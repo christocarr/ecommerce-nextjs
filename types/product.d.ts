@@ -1,4 +1,4 @@
-import ProductsSpecification from './specification';
+import { ProductsSpecification } from './specification';
 
 export interface IProduct {
 	id: string;

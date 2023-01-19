@@ -54,7 +54,7 @@ function Navbar() {
 								clipRule='evenodd'
 							/>
 						</svg>
-						{cart.length > 0 && (
+						{cart.items.length > 0 && (
 							<span className='absolute top-0 right-0 w-2 h-2 bg-red-600 rounded'></span>
 						)}
 					</div>
