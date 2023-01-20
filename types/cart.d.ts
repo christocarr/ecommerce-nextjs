@@ -1,14 +1,11 @@
 import { IProduct } from './product.d';
 
-// export type Cart = {
-// 	products: IProduct[];
-// };
-type Items = {
+type Item = {
 	item: IProduct;
 	quantity: number;
 };
 
 export type Cart = {
 	cartId: string;
-	items: Items[];
+	items: Item[];
 };
