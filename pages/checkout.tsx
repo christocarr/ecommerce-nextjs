@@ -2,9 +2,11 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Button, ProductCard, ProductImage } from '../components';
 import { useAppContext } from '../context/state';
+import { Item } from '../types/cart';
+import { IProduct } from '../types/product';
 
 export default function Checkout() {
-	const { cart, removeFromCart } = useAppContext();
+	const { cart, addToCart, removeFromCart } = useAppContext();
 	const [fee, setFee] = useState(3.99);
 	const [cartTotal, setCartTotal] = useState(0);
 	const [itemsTotal, setItemsTotal] = useState(0);
@@ -33,6 +35,15 @@ export default function Checkout() {
 		removeFromCart(productId);
 	};
 
+	const handleAddToCart = (productId: string) => {
+		const cartItems = cart.items;
+		const product = cartItems.find(({ item }) => item.id === productId);
+
+		if (product) {
+			addToCart(product.item);
+		}
+	};
+
 	return (
 		<>
 			{cart.items.length === 0 ? (
@@ -41,7 +52,7 @@ export default function Checkout() {
 					<Link href='/'>Back to great deals</Link>
 				</div>
 			) : (
-				<div className='flex flex-col w-4/6'>
+				<div className='flex flex-col w-full'>
 					<div className='flex justify-between'>
 						<p>Cart Total</p>
 						<p>£{cartTotal + fee}</p>
@@ -64,12 +75,20 @@ export default function Checkout() {
 				<div key={product.item.id}>
 					<ProductCard>
 						<ProductImage image={product.item.image} name={product.item.name} />
-						<Button
-							text='remove'
-							className=''
-							onClick={() => handleRemoveFromCart(product.item.id)}
-						/>
-						<p>{product.quantity}</p>
+						<div className='flex'>
+							<Button
+								text='-'
+								className='px-2 text-white bg-black'
+								onClick={() => handleRemoveFromCart(product.item.id)}
+							/>
+
+							<p className='mx-2'>{product.quantity}</p>
+							<Button
+								text='+'
+								className='px-2 text-white bg-black'
+								onClick={() => handleAddToCart(product.item.id)}
+							/>
+						</div>
 					</ProductCard>
 				</div>
 			))}
