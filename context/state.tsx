@@ -50,12 +50,27 @@ export const AppWrapper: React.FC<Props> = ({ children }) => {
 		}
 	};
 
-	const removeFromCart = (id: string) => {
-		const newItems = cart.items.filter(({ item }) => item.id !== id);
-		setCart({
-			...cart,
-			items: newItems,
-		});
+	const removeFromCart = (productId: string) => {
+		const items = cart.items.slice();
+		const index = items.findIndex(({ item }) => item.id === productId);
+
+		if (index > -1 && items[index].quantity > 1) {
+			items[index] = {
+				...items[index],
+				quantity: items[index].quantity - 1,
+			};
+
+			setCart({
+				...cart,
+				items,
+			});
+		} else {
+			const newItems = cart.items.filter(({ item }) => item.id !== productId);
+			setCart({
+				...cart,
+				items: newItems,
+			});
+		}
 	};
 
 	return (
