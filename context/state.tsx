@@ -7,6 +7,7 @@ type Context = {
 	cart: Cart;
 	addToCart: (product: IProduct) => void;
 	removeFromCart: (id: string) => void;
+	removeAllFromCart: (id: string) => void;
 };
 
 type Props = {
@@ -73,8 +74,14 @@ export const AppWrapper: React.FC<Props> = ({ children }) => {
 		}
 	};
 
+	//Removes all items of the same product
+	const removeAllFromCart = (productId: string) => {
+		const newItems = cart.items.filter(({ item }) => item.id !== productId);
+		setCart({ ...cart, items: newItems });
+	};
+
 	return (
-		<AppContext.Provider value={{ cart, addToCart, removeFromCart }}>
+		<AppContext.Provider value={{ cart, addToCart, removeFromCart, removeAllFromCart }}>
 			{children}
 		</AppContext.Provider>
 	);

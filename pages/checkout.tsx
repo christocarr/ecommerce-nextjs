@@ -1,12 +1,10 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Button, ProductCard, ProductImage } from '../components';
+import { Button, ProductCard, ProductDescription, ProductImage } from '../components';
 import { useAppContext } from '../context/state';
-import { Item } from '../types/cart';
-import { IProduct } from '../types/product';
 
 export default function Checkout() {
-	const { cart, addToCart, removeFromCart } = useAppContext();
+	const { cart, addToCart, removeFromCart, removeAllFromCart } = useAppContext();
 	const [fee, setFee] = useState(3.99);
 	const [cartTotal, setCartTotal] = useState(0);
 	const [itemsTotal, setItemsTotal] = useState(0);
@@ -44,6 +42,10 @@ export default function Checkout() {
 		}
 	};
 
+	const handleRemoveAll = (productId: string) => {
+		removeAllFromCart(productId);
+	};
+
 	return (
 		<>
 			{cart.items.length === 0 ? (
@@ -52,7 +54,7 @@ export default function Checkout() {
 					<Link href='/'>Back to great deals</Link>
 				</div>
 			) : (
-				<div className='flex flex-col w-full'>
+				<div className='flex flex-col w-full mb-4'>
 					<div className='flex justify-between'>
 						<p>Cart Total</p>
 						<p>£{cartTotal + fee}</p>
@@ -70,23 +72,30 @@ export default function Checkout() {
 					</div>
 				</div>
 			)}
-			<p>Your cart</p>
+			<p className='mb-2 text-lg'>Your cart</p>
 			{cart.items.map((product) => (
 				<div key={product.item.id}>
-					<ProductCard>
+					<ProductCard className='mb-6 p-8 rounded-xl bg-white'>
 						<ProductImage image={product.item.image} name={product.item.name} />
-						<div className='flex'>
+						<ProductDescription description={product.item.description} />
+						<div className='flex justify-between'>
+							<div className='flex'>
+								<Button
+									text='-'
+									className='px-2 text-white bg-black'
+									onClick={() => handleRemoveFromCart(product.item.id)}
+								/>
+								<p className='mx-2'>{product.quantity}</p>
+								<Button
+									text='+'
+									className='px-2 text-white bg-black'
+									onClick={() => handleAddToCart(product.item.id)}
+								/>
+							</div>
 							<Button
-								text='-'
-								className='px-2 text-white bg-black'
-								onClick={() => handleRemoveFromCart(product.item.id)}
-							/>
-
-							<p className='mx-2'>{product.quantity}</p>
-							<Button
-								text='+'
-								className='px-2 text-white bg-black'
-								onClick={() => handleAddToCart(product.item.id)}
+								text='Remove'
+								className='px-2 ml-2 text-white bg-black'
+								onClick={() => handleRemoveAll(product.item.id)}
 							/>
 						</div>
 					</ProductCard>
