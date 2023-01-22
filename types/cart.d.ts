@@ -1,6 +1,6 @@
 import { IProduct } from './product.d';
 
-type Item = {
+export type Item = {
 	item: IProduct;
 	quantity: number;
 };

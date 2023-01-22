@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Cart } from '../types/cart';
 import { IProduct } from '../types/product.d';
+import { filteredItems, slicedCartItems, itemIndex } from '../utils/cart-state';
 
 type Context = {
 	cart: Cart;
@@ -26,8 +27,8 @@ export const AppWrapper: React.FC<Props> = ({ children }) => {
 
 	const addToCart = (product: IProduct) => {
 		const productId = product.id;
-		const items = cart.items.slice();
-		const index = items.findIndex(({ item }) => item.id === productId);
+		const items = slicedCartItems(cart);
+		const index = itemIndex(items, productId);
 
 		if (index > -1) {
 			items[index] = {
@@ -52,8 +53,8 @@ export const AppWrapper: React.FC<Props> = ({ children }) => {
 	};
 
 	const removeFromCart = (productId: string) => {
-		const items = cart.items.slice();
-		const index = items.findIndex(({ item }) => item.id === productId);
+		const items = slicedCartItems(cart);
+		const index = itemIndex(items, productId);
 
 		if (index > -1 && items[index].quantity > 1) {
 			items[index] = {
@@ -66,7 +67,8 @@ export const AppWrapper: React.FC<Props> = ({ children }) => {
 				items,
 			});
 		} else {
-			const newItems = cart.items.filter(({ item }) => item.id !== productId);
+			const newItems = filteredItems(cart, productId);
+
 			setCart({
 				...cart,
 				items: newItems,
@@ -76,7 +78,8 @@ export const AppWrapper: React.FC<Props> = ({ children }) => {
 
 	//Removes all items of the same product
 	const removeAllFromCart = (productId: string) => {
-		const newItems = cart.items.filter(({ item }) => item.id !== productId);
+		const newItems = filteredItems(cart, productId);
+
 		setCart({ ...cart, items: newItems });
 	};
 
