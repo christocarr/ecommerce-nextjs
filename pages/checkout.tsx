@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Button, ProductCard, ProductDescription, ProductImage } from '../components';
+import CheckoutFrom from '../components/CheckoutForm';
 import { useAppContext } from '../context/state';
 
 export default function Checkout() {
@@ -66,10 +67,13 @@ export default function Checkout() {
 						</p>
 						<p>£{cartTotal}</p>
 					</div>
-					<div className='flex justify-between'>
-						<Link href='/'>Service fee</Link>
+					<div className='flex justify-between mb-4'>
+						<Link href='/' className='underline underline-offset-4'>
+							Service fee
+						</Link>
 						<p>£{fee}</p>
 					</div>
+					<CheckoutFrom cartTotal={cartTotal} cart={cart} />
 				</div>
 			)}
 			<p className='mb-2 text-lg'>Your cart</p>
@@ -94,7 +98,7 @@ export default function Checkout() {
 							</div>
 							<Button
 								text='Remove'
-								className='px-2 ml-2 text-white bg-black'
+								className='px-2 ml-2 text-white bg-black' //todo: danger button
 								onClick={() => handleRemoveAll(product.item.id)}
 							/>
 						</div>
