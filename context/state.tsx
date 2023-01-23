@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Cart } from '../types/cart';
 import { IProduct } from '../types/product.d';
@@ -24,6 +24,17 @@ const initialCart: Cart = {
 
 export const AppWrapper: React.FC<Props> = ({ children }) => {
 	const [cart, setCart] = useState<Cart>(initialCart);
+
+	useEffect(() => {
+		const stored = localStorage.getItem('cart');
+		setCart(stored ? JSON.parse(stored) : initialCart);
+	}, []);
+
+	useEffect(() => {
+		if (cart !== initialCart) {
+			localStorage.setItem('cart', JSON.stringify(cart));
+		}
+	}, [cart]);
 
 	const addToCart = (product: IProduct) => {
 		const productId = product.id;
