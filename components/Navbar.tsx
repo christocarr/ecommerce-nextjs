@@ -69,7 +69,7 @@ function Navbar() {
 					</Link>
 				</div>
 			</nav>
-			{mobileMenuOpen && <MobileMenu isOpen={mobileMenuOpen} />}
+			{mobileMenuOpen && <MobileMenu isOpen={mobileMenuOpen} setIsOpen={setMobileMenuOpen} />}
 		</>
 	);
 }
