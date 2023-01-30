@@ -10,7 +10,7 @@ datasource db {
 type ProductsSpecifications {
   Bluetooth        String?
   Charging_case    String? @map("Charging case")
-  Colour           String?
+  Colour           String
   Memory           String?
   Microphone       String?
   Model            String?
@@ -23,6 +23,7 @@ type ProductsSpecifications {
 model products {
   id             String                 @id @default(auto()) @map("_id") @db.ObjectId
   category       String
+  deal           Boolean
   description    String
   image          String
   name           String
