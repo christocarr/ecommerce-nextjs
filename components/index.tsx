@@ -6,3 +6,5 @@ export { default as ProductPrice } from './ProductPrice';
 export { default as Button } from './Button';
 export { default as Cart } from './Cart';
 export { default as Layout } from './Layout';
+export { default as ProductsByCategory } from './ProductsByCategory';
+export { default as CardSlider } from './CardSlider';
