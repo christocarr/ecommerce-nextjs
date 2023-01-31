@@ -57,7 +57,7 @@
 	}
 
 	.card {
-		@apply min-w-[290px] w-full mr-4 p-8 rounded-xl bg-white cursor-pointer hover:drop-shadow-lg delay-200 ease-in;
+		@apply min-w-[240px] max-w-[300px] mr-4 p-8 rounded-xl bg-white cursor-pointer hover:drop-shadow-lg delay-200 ease-in;
 	}
 
 	form {
