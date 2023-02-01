@@ -37,7 +37,7 @@
 	}
 
 	p {
-		@apply text-base mb-2;
+		@apply text-base;
 	}
 
 	.text-link {
@@ -69,6 +69,6 @@
 	}
 
 	form {
-		@apply relative flex;
+		@apply relative flex py-2;
 	}
 }
