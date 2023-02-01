@@ -1,5 +1,5 @@
 import React from 'react';
-import { IProduct } from '../types/product';
+import { IProduct } from '../types/product.d';
 import { useAppContext } from '../context/state';
 import { Button } from '../components';
 
@@ -21,7 +21,11 @@ const Cart: React.FC<CartProps> = ({ cart }) => {
 			{cart.map((product) => (
 				<div key={product.id}>
 					<p>{product.name}</p>
-					<Button text={'remove from cart'} onClick={() => handleRemoveFromCart(product.id)} />
+					<Button
+						text='remove from cart'
+						onClick={() => handleRemoveFromCart(product.id)}
+						className='btn btn-primary'
+					/>
 				</div>
 			))}
 		</>

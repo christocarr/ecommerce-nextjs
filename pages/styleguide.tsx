@@ -24,13 +24,13 @@ export default function Test() {
 			<div className='p-4'>
 				<h2>Buttons</h2>
 				<div className='mb-4'>
-					<button className='button-primary'>Button primary</button>
+					<button className='btn btn-primary'>Button primary</button>
 				</div>
 				<div className='mb-4'>
-					<button className='button-secondary'>Button secondary</button>
+					<button className='btn btn-secondary'>Button secondary</button>
 				</div>
 				<div className='mb-4'>
-					<button className='button-danger'>Button danger</button>
+					<button className='btn-danger'>Button danger</button>
 				</div>
 			</div>
 			<hr />

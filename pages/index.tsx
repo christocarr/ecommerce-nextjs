@@ -107,7 +107,7 @@ export default function Home({ dealProducts }: InferGetServerSidePropsType<GetSe
 						<p className='mb-0'>Positive impact on the environment.</p>
 					</div>
 				</div>
-				<Button text='Find out more' className='button-primary' />
+				<Button text='Find out more' className='btn btn-secondary' />
 			</div>
 		</>
 	);

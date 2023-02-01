@@ -86,19 +86,19 @@ export default function Checkout() {
 							<div className='flex'>
 								<Button
 									text='-'
-									className='px-2 text-white bg-black'
+									className='btn-secondary text-xl'
 									onClick={() => handleRemoveFromCart(product.item.id)}
 								/>
 								<p className='mx-2'>{product.quantity}</p>
 								<Button
 									text='+'
-									className='px-2 text-white bg-black'
+									className='btn-secondary text-xl'
 									onClick={() => handleAddToCart(product.item.id)}
 								/>
 							</div>
 							<Button
 								text='Remove'
-								className='px-2 ml-2 text-white bg-black' //todo: danger button
+								className='btn btn-danger'
 								onClick={() => handleRemoveAll(product.item.id)}
 							/>
 						</div>

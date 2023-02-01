@@ -41,7 +41,7 @@ const CheckoutFrom = ({ cartTotal, cart }: CheckoutFormProps) => {
 				text={`Pay £${cartTotal}`}
 				type='submit'
 				disabled={loading}
-				className='w-full bg-black text-white py-2'
+				className='btn-primary w-full'
 			/>
 		</form>
 	);

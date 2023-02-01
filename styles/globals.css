@@ -44,23 +44,31 @@
 		@apply font-semibold underline underline-offset-2 text-sky-700 transition-colors duration-300 ease-in hover:text-sky-900 focus:text-sky-900 focus:outline-dotted outline-2 outline-sky-900;
 	}
 
-	.button-primary {
-		@apply bg-black rounded text-white px-4 py-2;
+	.btn {
+		@apply px-4 py-2 rounded transition;
 	}
 
-	.button-secondary {
-		@apply bg-white rounded text-black px-4 py-2;
+	.btn:hover {
+		@apply transition duration-300;
 	}
 
-	.button-danger {
-		@apply bg-white rounded text-red-500 border border-red-500 px-4 py-2;
+	.btn-primary {
+		@apply bg-black text-white hover:bg-slate-900;
+	}
+
+	.btn-secondary {
+		@apply bg-white text-black border border-black hover:bg-slate-900 hover:text-white hover:border-slate-900;
+	}
+
+	.btn-danger {
+		@apply bg-white text-red-500 border border-red-500 hover:bg-red-500 hover:text-white;
 	}
 
 	.card {
-		@apply min-w-[240px] max-w-[300px] mr-4 p-8 rounded-xl bg-white cursor-pointer hover:drop-shadow-lg delay-200 ease-in;
+		@apply min-w-[240px] max-w-[300px] mr-4 p-8 rounded bg-white cursor-pointer hover:drop-shadow-lg delay-200 ease-in;
 	}
 
 	form {
-		@apply relative flex h-40;
+		@apply relative flex;
 	}
 }
